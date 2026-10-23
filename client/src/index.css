@@ -1,0 +1,320 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 255 255 255;
+    --color-text: 15 23 42;
+    --color-text-muted: 100 116 139;
+    --color-border: 226 232 240;
+    --color-accent: #ef4444;
+  }
+
+  .dark {
+    --color-bg: 9 9 11;
+    --color-text: 244 244 245;
+    --color-text-muted: 161 161 170;
+    --color-border: 39 39 42;
+    --color-accent: #ef4444;
+  }
+
+  body {
+    background-color: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+  }
+}
+
+/* Custom utilities */
+.text-muted {
+  color: rgb(var(--color-text-muted));
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.border-theme {
+  border-color: rgb(var(--color-border));
+}
+
+/* Lattice Background Animation */
+.lattice-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.lattice-grid {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  width: 100%;
+  height: 100%;
+  gap: 1px;
+}
+
+.lattice-cell {
+  background-color: rgb(var(--color-text));
+  opacity: 0;
+  animation: cellPulse var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+  will-change: opacity;
+}
+
+.dark .lattice-cell {
+  background-color: #ffffff;
+}
+
+html:not(.dark) .lattice-cell {
+  background-color: #000000;
+  animation-name: cellPulseLight;
+}
+
+@keyframes cellPulse {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.08;
+  }
+}
+
+@keyframes cellPulseLight {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.05;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lattice-cell {
+    animation: none !important;
+    opacity: 0.02 !important;
+  }
+}
+
+/* Bento Cards */
+.bento-card {
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent), 0 20px 40px -20px #ef444426;
+  transform: translateY(-2px);
+}
+
+.dark .bento-card {
+  background: #ffffff0d;
+  border-color: #ffffff1a;
+}
+
+.dark .bento-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent), 0 20px 40px -20px #ef444433;
+}
+
+/* Project Cards */
+.project-card {
+  position: relative;
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  display: block;
+}
+
+.project-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px #ef444433;
+}
+
+.dark .project-card {
+  background: #ffffff0d;
+  border-color: #ffffff1a;
+}
+
+.dark .project-card:hover {
+  border-color: var(--color-accent);
+}
+
+/* Blog Cards */
+.blog-card {
+  position: relative;
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+}
+
+.blog-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px #ef444433;
+}
+
+.dark .blog-card {
+  background: #ffffff0d;
+  border-color: #ffffff1a;
+}
+
+.dark .blog-card:hover {
+  border-color: var(--color-accent);
+}
+
+/* Experience Cards */
+.experience-card {
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 1rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px #ef444426;
+}
+
+.dark .experience-card {
+  background: #ffffff0d;
+  border-color: #ffffff1a;
+}
+
+/* Social Links */
+.social-link {
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  transition: all 0.25s ease;
+}
+
+.social-link:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -10px #ef444433;
+}
+
+.dark .social-link {
+  background: #ffffff0d;
+  border-color: #ffffff1a;
+}
+
+/* Typewriter & Cursor */
+.typewriter-container {
+  display: inline;
+}
+
+.cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Prose for Blog & Details */
+.prose {
+  color: rgb(var(--color-text));
+}
+
+.prose h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: rgb(var(--color-text));
+}
+
+.prose h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: rgb(var(--color-text));
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+  color: rgb(var(--color-text-muted));
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  color: rgb(var(--color-text-muted));
+  line-height: 1.7;
+  list-style-type: disc;
+}
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: rgb(var(--color-text));
+}
+
+.prose code {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-accent);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+  font-family: monospace;
+}
+
+.prose pre {
+  background: rgb(var(--color-border));
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.dark .prose pre {
+  background: #18181b;
+  border: 1px solid #27272a;
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--color-accent);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: rgb(var(--color-text-muted));
+}
