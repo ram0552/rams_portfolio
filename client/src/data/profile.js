@@ -1,7 +1,14 @@
+import profilePicture from "../assets/Profile_Picture.jpeg";
+export const profileData = {
+  name: "Rambabu",
+  portraitUrl: "https://placehold.co/800x800/png?text=YOUR+PORTRAIT",
+  portraitAlt: "Portrait of Rambabu",
+};
+
 export const profile = {
-  name: "Patcha Manikanta Naga Venkata Sai Ganesh",
-  shortName: "Sai Ganesh",
-  nickname: "Ganesh",
+  name: "Rambabu Ghantasala",
+  shortName: "Rambabu Ghantasala",
+  nickname: "Rambabu Ghantasala",
   initials: "SG",
   title: "Computer Science & Data Science undergraduate, MERN Stack Developer, and AI application developer",
   location: "Tadepalligudem, Andhra Pradesh, India",
@@ -27,5 +34,7 @@ export const profile = {
     { label: "Experience", value: "MERN Intern @ PurpleLane" },
     { label: "Focus", value: "Full Stack & AI Systems" },
     { label: "Education", value: "B.Tech in CS & Data Science" }
-  ]
+  ],
+  portraitUrl: profileData.portraitUrl,
+  portraitAlt: profileData.portraitAlt,
 };

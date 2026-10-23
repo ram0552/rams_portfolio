@@ -18,6 +18,7 @@ import Typewriter from '../components/Typewriter';
 import ProjectCard from '../components/ProjectCard';
 import BlogCard from '../components/BlogCard';
 import ContactForm from '../components/ContactForm';
+import HeroPortrait from '../components/sections/hero/HeroPortrait';
 import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import { experiences, education } from '../data/experience';
@@ -45,64 +46,72 @@ export default function HomePage() {
 
   return (
     <div className="relative z-10">
-      {/* 1. HERO SECTION */}
-      <section className="relative min-h-[92vh] flex items-center justify-center px-6 pt-20">
-        <div className="text-center max-w-5xl mx-auto">
-          {/* Greeting */}
-          <p className="text-base md:text-lg font-mono mb-4 animate-fade-in text-muted">
-            Hi, I'm <span className="text-accent font-semibold">{profile.shortName}</span>
-          </p>
-
-          {/* Main Heading with Typewriter */}
-          <h1
-            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6 animate-fade-in tracking-tight"
-            style={{ animationDelay: '0.1s' }}
-          >
-            Building innovative solutions
-            <br className="hidden sm:block" />
-            {' '}as a <Typewriter words={profile.typewriterRoles} />
-          </h1>
-
-          {/* Professional Subtitle */}
-          <p
-            className="text-base md:text-xl text-muted max-w-2xl mx-auto mb-8 leading-relaxed animate-fade-in font-normal"
-            style={{ animationDelay: '0.2s' }}
-          >
-            {profile.title}
-          </p>
-
-          {/* Tags */}
-          <div
-            className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-muted font-mono text-xs md:text-sm animate-fade-in mb-10"
-            style={{ animationDelay: '0.3s' }}
-          >
-            {profile.heroTags.map((tag) => (
-              <span key={tag} className="hover:text-accent transition-colors">
-                {tag}
-              </span>
-            ))}
+      {/* 1. HERO SECTION (Responsive 2-column layout: portrait on left, content on right) */}
+      <section className="relative min-h-[92vh] flex items-center justify-center px-4 sm:px-6 pt-24 pb-16 lg:py-20 overflow-hidden lg:overflow-visible">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-14 items-center">
+          {/* Left Column: Premium Animated Circular Portrait (~40% desktop ratio) */}
+          <div className="lg:col-span-5 flex items-center justify-center order-1 lg:order-1 px-4 sm:px-6">
+            <HeroPortrait />
           </div>
 
-          {/* Actions */}
-          <div
-            className="flex flex-wrap items-center justify-center gap-4 animate-fade-in"
-            style={{ animationDelay: '0.4s' }}
-          >
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-accent text-white font-medium hover:bg-accent-600 transition-all hover:scale-105 hover:shadow-lg hover:shadow-accent/25 text-sm"
-            >
-              <span>Explore Work</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
+          {/* Right Column: Hero Content & CTAs (~60% desktop ratio) */}
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-2">
+            {/* Greeting */}
+            <p className="text-base md:text-lg font-mono mb-3 lg:mb-4 animate-fade-in text-muted">
+              Hi, I'm <span className="text-accent font-semibold">{profile.shortName}</span>
+            </p>
 
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-theme text-zinc-800 dark:text-zinc-200 font-medium hover:border-accent hover:text-accent hover:bg-accent/5 transition-all text-sm"
+            {/* Main Heading with Typewriter */}
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-[1.18] mb-5 lg:mb-6 animate-fade-in tracking-tight"
+              style={{ animationDelay: '0.1s' }}
             >
-              <Mail className="w-4 h-4" />
-              <span>Get in Touch</span>
-            </a>
+              Building innovative solutions
+              <br className="hidden sm:inline lg:block" />
+              {' '}as a <Typewriter words={profile.typewriterRoles} />
+            </h1>
+
+            {/* Professional Subtitle */}
+            <p
+              className="text-base md:text-lg lg:text-xl text-muted max-w-2xl lg:max-w-xl mb-6 lg:mb-8 leading-relaxed animate-fade-in font-normal"
+              style={{ animationDelay: '0.2s' }}
+            >
+              {profile.title}
+            </p>
+
+            {/* Tags */}
+            <div
+              className="flex flex-wrap justify-center lg:justify-start gap-x-4 gap-y-2 text-muted font-mono text-xs md:text-sm animate-fade-in mb-8 lg:mb-10"
+              style={{ animationDelay: '0.3s' }}
+            >
+              {profile.heroTags.map((tag) => (
+                <span key={tag} className="hover:text-accent transition-colors cursor-default">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* Actions */}
+            <div
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 animate-fade-in"
+              style={{ animationDelay: '0.4s' }}
+            >
+              <a
+                href="#projects"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-accent text-white font-medium hover:bg-accent-600 transition-all hover:scale-105 hover:shadow-lg hover:shadow-accent/25 text-sm"
+              >
+                <span>Explore Work</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-theme text-zinc-800 dark:text-zinc-200 font-medium hover:border-accent hover:text-accent hover:bg-accent/5 transition-all text-sm"
+              >
+                <Mail className="w-4 h-4" />
+                <span>Get in Touch</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -316,9 +325,8 @@ export default function HomePage() {
                 return (
                   <div
                     key={exp.id}
-                    className={`relative pl-8 md:pl-0 ${
-                      isEven ? 'md:pr-[50%] md:text-right' : 'md:pl-[50%]'
-                    }`}
+                    className={`relative pl-8 md:pl-0 ${isEven ? 'md:pr-[50%] md:text-right' : 'md:pl-[50%]'
+                      }`}
                   >
                     {/* Timeline Dot with Accent Ring */}
                     <div className="absolute top-1.5 w-3.5 h-3.5 rounded-full bg-accent border-4 border-[rgb(var(--color-bg))] left-0 md:left-1/2 md:-translate-x-1/2 z-10 shadow-sm shadow-accent/50" />
@@ -341,9 +349,8 @@ export default function HomePage() {
                         {exp.highlights.map((h, i) => (
                           <li
                             key={i}
-                            className={`flex items-start gap-2 ${
-                              isEven ? 'md:flex-row-reverse' : ''
-                            }`}
+                            className={`flex items-start gap-2 ${isEven ? 'md:flex-row-reverse' : ''
+                              }`}
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1.5" />
                             <span>{h}</span>

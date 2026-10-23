@@ -84,18 +84,24 @@ html:not(.dark) .lattice-cell {
 }
 
 @keyframes cellPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0;
   }
+
   50% {
     opacity: 0.08;
   }
 }
 
 @keyframes cellPulseLight {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0;
   }
+
   50% {
     opacity: 0.05;
   }
@@ -231,9 +237,12 @@ html:not(.dark) .lattice-cell {
 }
 
 @keyframes blink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
@@ -266,7 +275,8 @@ html:not(.dark) .lattice-cell {
   color: rgb(var(--color-text-muted));
 }
 
-.prose ul, .prose ol {
+.prose ul,
+.prose ol {
   margin-bottom: 1.25rem;
   padding-left: 1.5rem;
 }
@@ -317,4 +327,105 @@ html:not(.dark) .lattice-cell {
   margin: 1.5rem 0;
   font-style: italic;
   color: rgb(var(--color-text-muted));
+}
+
+/* ==========================================================================
+   Hero Portrait Animations & Visual Effects
+   ========================================================================== */
+
+/* 1. Entrance animation: fade-in, slide from left, subtle scale 96% to 100% */
+@keyframes portraitEnter {
+  0% {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.portrait-enter {
+  animation: portraitEnter 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+/* 2. Floating motion: gentle vertical 8px float with smooth 6s cycle */
+@keyframes portraitFloat {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0px, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.portrait-float {
+  animation: portraitFloat 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+/* 3. Orbiting ring: slow elegant 22s rotation cycle */
+@keyframes portraitOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.portrait-orbit {
+  animation: portraitOrbit 22s linear infinite;
+  will-change: transform;
+}
+
+/* 4. Ambient glow: subtle scale & opacity breathing 5.5s cycle */
+@keyframes portraitGlow {
+
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.75;
+    transform: scale(1.06);
+  }
+}
+
+.portrait-glow {
+  animation: portraitGlow 5.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .portrait-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .portrait-float {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .portrait-orbit {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .portrait-glow {
+    animation: none !important;
+    opacity: 0.5 !important;
+    transform: none !important;
+  }
 }
