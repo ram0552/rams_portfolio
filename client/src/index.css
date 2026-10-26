@@ -447,6 +447,51 @@ html:not(.dark) .lattice-cell {
   will-change: transform, opacity;
 }
 
+/* Subtle Floating Animations for Technology Icons */
+@keyframes skillFloatA {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+@keyframes skillFloatB {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(2.5px);
+  }
+}
+
+@keyframes skillFloatC {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.float-subtle-a {
+  animation: skillFloatA 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.float-subtle-b {
+  animation: skillFloatB 8.5s ease-in-out infinite;
+  animation-delay: -2.5s;
+  will-change: transform;
+}
+
+.float-subtle-c {
+  animation: skillFloatC 10s ease-in-out infinite;
+  animation-delay: -5s;
+  will-change: transform;
+}
+
 /* Accessibility: prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .portrait-enter {
@@ -477,5 +522,12 @@ html:not(.dark) .lattice-cell {
     animation: none !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  .float-subtle-a,
+  .float-subtle-b,
+  .float-subtle-c {
+    animation: none !important;
+    transform: none !important;
   }
 }

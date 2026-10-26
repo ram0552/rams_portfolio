@@ -6,10 +6,6 @@ import {
   ArrowRight,
   Layers,
   Mail,
-  Code2,
-  Database,
-  Bot,
-  Terminal,
   Cpu,
   GitBranch
 } from 'lucide-react';
@@ -17,31 +13,16 @@ import { GithubIcon, LinkedinIcon } from '../components/Icons';
 import Typewriter from '../components/Typewriter';
 import ProjectCard from '../components/ProjectCard';
 import AboutCard from '../components/AboutCard';
+import SkillsSection from '../components/SkillsSection';
 import WhatImExploringSection from '../components/WhatImExploringSection';
 import ContactForm from '../components/ContactForm';
 import HeroPortrait from '../components/sections/hero/HeroPortrait';
 import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import { experiences, education } from '../data/experience';
-import { skillCategories } from '../data/skills';
 
 export default function HomePage() {
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
-
-  const getCategoryIcon = (categoryName) => {
-    switch (categoryName) {
-      case 'Frontend Development':
-        return <Code2 className="w-5 h-5 text-accent" />;
-      case 'Backend Development':
-        return <Cpu className="w-5 h-5 text-accent" />;
-      case 'Databases & Vector Storage':
-        return <Database className="w-5 h-5 text-accent" />;
-      case 'AI & Generative AI':
-        return <Bot className="w-5 h-5 text-accent" />;
-      default:
-        return <Terminal className="w-5 h-5 text-accent" />;
-    }
-  };
 
   return (
     <div className="relative z-10">
@@ -246,51 +227,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. TECHNICAL SKILLS SECTION */}
-      <section id="skills" className="py-24 px-6 border-t border-theme/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
-              Technical Arsenal
-            </h2>
-            <p className="text-muted text-lg max-w-2xl">
-              Technologies, frameworks, and architectural paradigms I work with daily
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {skillCategories.map((category) => (
-              <div
-                key={category.name}
-                className="bento-card p-6 flex flex-col group hover:border-accent transition-all"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
-                    {getCategoryIcon(category.name)}
-                  </div>
-                  <h3 className="text-lg font-bold group-hover:text-accent transition-colors">
-                    {category.name}
-                  </h3>
-                </div>
-
-                <p className="text-xs text-muted mb-4 leading-relaxed">
-                  {category.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {category.skills.map((skill) => (
-                    <span
-                      key={skill.name}
-                      className="px-2.5 py-1 text-xs rounded-lg bg-[rgb(var(--color-border))]/50 dark:bg-zinc-800/60 hover:bg-accent/10 hover:text-accent transition-colors cursor-default text-zinc-700 dark:text-zinc-300"
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SkillsSection />
 
       {/* 4. FEATURED PROJECTS SECTION */}
       <section id="projects" className="py-24 px-6 border-t border-theme/30">
