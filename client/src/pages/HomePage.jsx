@@ -16,18 +16,16 @@ import {
 import { GithubIcon, LinkedinIcon } from '../components/Icons';
 import Typewriter from '../components/Typewriter';
 import ProjectCard from '../components/ProjectCard';
-import BlogCard from '../components/BlogCard';
+import WhatImExploringSection from '../components/WhatImExploringSection';
 import ContactForm from '../components/ContactForm';
 import HeroPortrait from '../components/sections/hero/HeroPortrait';
 import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import { experiences, education } from '../data/experience';
 import { skillCategories } from '../data/skills';
-import { blogPosts } from '../data/blog';
 
 export default function HomePage() {
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
-  const latestBlogs = blogPosts.slice(0, 3);
 
   const getCategoryIcon = (categoryName) => {
     switch (categoryName) {
@@ -63,7 +61,7 @@ export default function HomePage() {
 
             {/* Main Heading with Typewriter */}
             <h1
-className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-[1.18] mb-5 lg:mb-6 animate-fade-in tracking-tight"              style={{ animationDelay: '0.1s' }}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-[1.18] mb-5 lg:mb-6 animate-fade-in tracking-tight" style={{ animationDelay: '0.1s' }}
             >
               Building innovative solutions
               <br className="hidden sm:inline lg:block" />
@@ -190,68 +188,68 @@ className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold le
               </div>
             </div>  */}
             <div className="bento-card p-6 flex flex-col justify-between group">
+              <div className="flex items-center justify-between mb-4">
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
+                  <GraduationCap className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">
+                  CGPA: 8.13{/* or {education.cgpa} */}
+                </span>
+              </div>
+              <div>
+                <p className="text-xs text-muted mb-1">Undergraduate Studies</p>
+                <p className="text-base font-semibold">CS & Data Science</p>
+                <p className="text-xs text-muted mt-1">{education.institution}</p>
+              </div>
+            </div>
+            {/* What I Build Card */}
+            <div className="bento-card md:col-span-2 p-6 flex flex-col justify-between group">
+              <div>
+                {/* Card Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
-                    <GraduationCap className="w-5 h-5" />
+                    <Cpu className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">
-                    CGPA: 8.13{/* or {education.cgpa} */}
+                  <span className="text-xs uppercase tracking-wider font-medium text-accent">
+                    Core Focus
                   </span>
                 </div>
+
                 <div>
-                  <p className="text-xs text-muted mb-1">Undergraduate Studies</p>
-                  <p className="text-base font-semibold">CS & Data Science</p>
-                  <p className="text-xs text-muted mt-1">{education.institution}</p>
+                  {/* <p className="text-xs text-muted mb-1">Architecture & Engineering</p> */}
+                  <p className="text-base font-semibold">What I Build</p>
                 </div>
-            </div>
-    {/* What I Build Card */}
-<div className="bento-card md:col-span-2 p-6 flex flex-col justify-between group">
-  <div>
-    {/* Card Header */}
-    <div className="flex items-center justify-between mb-4">
-      <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
-        <Cpu className="w-5 h-5" />
-      </div>
-      <span className="text-xs uppercase tracking-wider font-medium text-accent">
-        Core Focus
-      </span>
-    </div>
 
-    <div>
-      {/* <p className="text-xs text-muted mb-1">Architecture & Engineering</p> */}
-      <p className="text-base font-semibold">What I Build</p>
-    </div>
+                {/* Sub-Focus Highlights */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                  <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
+                      <Layers className="w-4 h-4 text-accent" />
+                      <span>Full-Stack Platforms</span>
+                    </div>
+                    <p className="text-xs text-muted leading-relaxed">
+                      Production web apps using React, Node.js, and MongoDB with secure auth, rate-limited APIs, and clean state.
+                    </p>
+                  </div>
 
-    {/* Sub-Focus Highlights */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-      <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
-        <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
-          <Layers className="w-4 h-4 text-accent" />
-          <span>Full-Stack Platforms</span>
-        </div>
-        <p className="text-xs text-muted leading-relaxed">
-          Production web apps using React, Node.js, and MongoDB with secure auth, rate-limited APIs, and clean state.
-        </p>
-      </div>
+                  <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
+                      <GitBranch className="w-4 h-4 text-accent" />
+                      <span>Agentic & RAG Systems</span>
+                    </div>
+                    <p className="text-xs text-muted leading-relaxed">
+                      Orchestrated workflows using LangGraph and LangChain, featuring tool calling, RAG pipelines, and human-in-the-loop loops.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-      <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
-        <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
-          <GitBranch className="w-4 h-4 text-accent" />
-          <span>Agentic & RAG Systems</span>
-        </div>
-        <p className="text-xs text-muted leading-relaxed">
-          Orchestrated workflows using LangGraph and LangChain, featuring tool calling, RAG pipelines, and human-in-the-loop loops.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  {/* Footer Tagline */}
-  {/* <div className="mt-5 pt-3.5 border-t border-border/40 flex items-center justify-between text-xs text-muted">
+              {/* Footer Tagline */}
+              {/* <div className="mt-5 pt-3.5 border-t border-border/40 flex items-center justify-between text-xs text-muted">
     <span>Focus: Scalability & AI Integration</span>
     <span className="font-mono text-[11px] text-accent">Production-Ready</span>
   </div> */}
-</div>
+            </div>
 
 
             {/* Quick Skills Pill Card */}
@@ -365,7 +363,10 @@ className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold le
         </div>
       </section>
 
-      {/* 5. EXPERIENCE TIMELINE SECTION */}
+      {/* 5. WHAT I'M EXPLORING SECTION */}
+      <WhatImExploringSection />
+
+      {/* 6. EXPERIENCE TIMELINE SECTION */}
       <section id="experience" className="py-24 px-6 border-t border-theme/30">
         <div className="max-w-4xl mx-auto">
           <div className="mb-16 text-center md:text-left">
@@ -425,46 +426,6 @@ className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold le
                 );
               })}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. BLOG SECTION */}
-      <section id="blog" className="py-24 px-6 border-t border-theme/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
-                Latest Insights
-              </h2>
-              <p className="text-muted text-lg max-w-2xl">
-                Technical write-ups, architecture breakdowns, and notes on modern web engineering
-              </p>
-            </div>
-
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline shrink-0"
-            >
-              <span>View all articles</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {latestBlogs.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
-          </div>
-
-          <div className="text-center pt-6">
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-theme text-muted hover:text-accent hover:border-accent hover:bg-accent/5 transition-all text-sm font-medium"
-            >
-              <span>Browse All Articles with Search & Tags</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>

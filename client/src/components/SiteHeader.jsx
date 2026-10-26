@@ -34,7 +34,7 @@ export default function SiteHeader() {
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-muted">
             <Link
               to="/#about"
               onClick={() => handleNavClick('about')}
@@ -51,12 +51,11 @@ export default function SiteHeader() {
               Projects
             </Link>
             <Link
-              to="/blog"
-              className={`hover:text-accent transition-colors ${
-                location.pathname.startsWith('/blog') ? 'text-accent font-semibold' : ''
-              }`}
+              to="/#exploring"
+              onClick={() => handleNavClick('exploring')}
+              className="hover:text-accent transition-colors whitespace-nowrap"
             >
-              Blog
+              What I'm Exploring
             </Link>
             <Link
               to="/#experience"

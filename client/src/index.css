@@ -144,14 +144,18 @@ html:not(.dark) .lattice-cell {
   background: rgb(var(--color-bg));
   border: 1px solid rgb(var(--color-border));
   border-radius: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
   height: 100%;
   display: block;
 }
 
 .project-card:hover {
   border-color: var(--color-accent);
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: 0 20px 40px -20px #ef444433;
 }
 
@@ -169,29 +173,30 @@ html:not(.dark) .lattice-cell {
   min-height: 220px;
 }
 
-/* Blog Cards */
-.blog-card {
+/* Exploring Cards */
+.exploring-card {
   position: relative;
   background: rgb(var(--color-bg));
   border: 1px solid rgb(var(--color-border));
   border-radius: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   height: 100%;
 }
 
-.blog-card:hover {
+.exploring-card:hover {
   border-color: var(--color-accent);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -20px #ef444433;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -10px #ef444426;
 }
 
-.dark .blog-card {
+.dark .exploring-card {
   background: #ffffff0d;
   border-color: #ffffff1a;
 }
 
-.dark .blog-card:hover {
+.dark .exploring-card:hover {
   border-color: var(--color-accent);
+  box-shadow: 0 12px 28px -10px #ef444433;
 }
 
 /* Experience Cards */
@@ -432,5 +437,12 @@ html:not(.dark) .lattice-cell {
     animation: none !important;
     opacity: 0.5 !important;
     transform: none !important;
+  }
+
+  .project-card,
+  .exploring-card {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

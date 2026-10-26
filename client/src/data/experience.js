@@ -41,12 +41,11 @@
 export const experiences = [
   {
     id: "purplelane",
-    period: "February 2026 – Present",
+    period: "February 2026 – Jun 6",
     role: "MERN Stack Intern",
     organization: "PurpleLane (Apostlesway Technologies Pvt. Ltd.)",
     location: "",
-    description: "Working on full-stack features for SaaS-based software using MongoDB, Express.js, React.js, and Node.js.",
-    highlights: [
+    description: "Developing full-stack SaaS features using MongoDB, Express.js, React.js, and Node.js (MERN stack).",    highlights: [
       "Develop full-stack features for SaaS-based software using the MERN stack.",
       "Developed and integrated RESTful APIs to connect the React frontend with backend services.",
       "Designed and managed MongoDB databases, schemas, and data operations.",

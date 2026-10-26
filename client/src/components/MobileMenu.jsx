@@ -39,7 +39,7 @@ export default function MobileMenu({ isOpen, onClose }) {
   const navLinks = [
     { name: 'About', path: '/#about', isHash: true },
     { name: 'Projects', path: '/projects', isHash: false },
-    { name: 'Blog', path: '/blog', isHash: false },
+    { name: "What I'm Exploring", path: '/#exploring', isHash: true },
     { name: 'Experience', path: '/#experience', isHash: true },
     { name: 'Contact', path: '/#contact', isHash: true }
   ];
