@@ -16,6 +16,7 @@ import {
 import { GithubIcon, LinkedinIcon } from '../components/Icons';
 import Typewriter from '../components/Typewriter';
 import ProjectCard from '../components/ProjectCard';
+import AboutCard from '../components/AboutCard';
 import WhatImExploringSection from '../components/WhatImExploringSection';
 import ContactForm from '../components/ContactForm';
 import HeroPortrait from '../components/sections/hero/HeroPortrait';
@@ -129,10 +130,10 @@ export default function HomePage() {
           {/* Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {/* Main Bio Card (Spans 2 columns) */}
-            <div className="bento-card md:col-span-2 p-8 group">
+            <AboutCard className="md:col-span-2 p-8">
               <div className="flex flex-col sm:flex-row items-start gap-6">
                 {/* Monogram Avatar with Gradient */}
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform border border-accent/20">
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all duration-300 ease-out border border-accent/20 group-hover:border-accent/40 group-hover:shadow-md group-hover:shadow-accent/10">
                   <span className="text-3xl md:text-4xl font-bold text-accent">
                     {profile.initials}
                   </span>
@@ -145,54 +146,29 @@ export default function HomePage() {
                   <p className="text-muted leading-relaxed text-sm md:text-base mb-4">
                     {profile.bio}
                   </p>
-                  {/* <p className="text-muted/80 text-xs md:text-sm">
-                    Currently pursuing a Bachelor of Technology in Computer Science & Engineering (Data Science) with an emphasis on production MERN architectures and autonomous agent systems.
-                  </p> */}
                 </div>
               </div>
-            </div>
+            </AboutCard>
 
             {/* Location Card */}
-            <div className="bento-card p-6 flex flex-col justify-between group">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors text-accent">
-                <MapPin className="w-5 h-5" />
+            <AboutCard className="p-6">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-all duration-300 text-accent">
+                <MapPin className="w-5 h-5 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-translate-y-0.5" />
               </div>
               <div>
                 <p className="text-xs text-muted mb-1">Based in</p>
                 <p className="text-lg font-semibold">{profile.location}</p>
                 <p className="text-xs text-muted/70 mt-1">Open to remote & onsite opportunities</p>
               </div>
-            </div>
+            </AboutCard>
 
-            {/* Experience Highlight Card */}
-            {/* <div className="bento-card p-6 flex flex-col justify-between group">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors text-accent">
-                <Briefcase className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs text-muted mb-1">Professional Experience</p>
-                <p className="text-lg font-semibold">MERN Stack Intern</p>
-                <p className="text-sm text-accent font-medium mt-0.5">PurpleLane</p>
-              </div>
-            </div> */}
-
-            {/*Education Card*/}
-            {/* <div className="bento-card p-6 flex flex-col justify-between group">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors text-accent">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs text-muted mb-1">Undergraduate Studies</p>
-                <p className="text-base font-semibold">CS & Data Science</p>
-                <p className="text-xs text-muted mt-1">{education.institution}</p>
-              </div>
-            </div>  */}
-            <div className="bento-card p-6 flex flex-col justify-between group">
+            {/* Education Card */}
+            <AboutCard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
-                  <GraduationCap className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-all duration-300 text-accent">
+                  <GraduationCap className="w-5 h-5 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3" />
                 </div>
-                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">
+                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20 group-hover:border-accent/40 transition-colors duration-200">
                   CGPA: 8.13{/* or {education.cgpa} */}
                 </span>
               </div>
@@ -201,14 +177,15 @@ export default function HomePage() {
                 <p className="text-base font-semibold">CS & Data Science</p>
                 <p className="text-xs text-muted mt-1">{education.institution}</p>
               </div>
-            </div>
+            </AboutCard>
+
             {/* What I Build Card */}
-            <div className="bento-card md:col-span-2 p-6 flex flex-col justify-between group">
+            <AboutCard className="md:col-span-2 p-6">
               <div>
                 {/* Card Header */}
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
-                    <Cpu className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-all duration-300 text-accent">
+                    <Cpu className="w-5 h-5 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3" />
                   </div>
                   <span className="text-xs uppercase tracking-wider font-medium text-accent">
                     Core Focus
@@ -216,15 +193,14 @@ export default function HomePage() {
                 </div>
 
                 <div>
-                  {/* <p className="text-xs text-muted mb-1">Architecture & Engineering</p> */}
                   <p className="text-base font-semibold">What I Build</p>
                 </div>
 
                 {/* Sub-Focus Highlights */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                  <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
+                  <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-all duration-200 group/sub">
                     <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
-                      <Layers className="w-4 h-4 text-accent" />
+                      <Layers className="w-4 h-4 text-accent transition-transform duration-200 group-hover/sub:scale-110" />
                       <span>Full-Stack Platforms</span>
                     </div>
                     <p className="text-xs text-muted leading-relaxed">
@@ -232,9 +208,9 @@ export default function HomePage() {
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
+                  <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-all duration-200 group/sub">
                     <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
-                      <GitBranch className="w-4 h-4 text-accent" />
+                      <GitBranch className="w-4 h-4 text-accent transition-transform duration-200 group-hover/sub:scale-110" />
                       <span>Agentic & RAG Systems</span>
                     </div>
                     <p className="text-xs text-muted leading-relaxed">
@@ -243,13 +219,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-
-              {/* Footer Tagline */}
-              {/* <div className="mt-5 pt-3.5 border-t border-border/40 flex items-center justify-between text-xs text-muted">
-    <span>Focus: Scalability & AI Integration</span>
-    <span className="font-mono text-[11px] text-accent">Production-Ready</span>
-  </div> */}
-            </div>
+            </AboutCard>
 
 
             {/* Quick Skills Pill Card */}
