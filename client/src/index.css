@@ -164,6 +164,11 @@ html:not(.dark) .lattice-cell {
   border-color: var(--color-accent);
 }
 
+.project-card-wide {
+  height: auto;
+  min-height: 220px;
+}
+
 /* Blog Cards */
 .blog-card {
   position: relative;

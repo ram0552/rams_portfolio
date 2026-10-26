@@ -2,16 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   MapPin,
-  Briefcase,
   GraduationCap,
-  Sparkles,
   ArrowRight,
+  Layers,
   Mail,
   Code2,
   Database,
   Bot,
   Terminal,
-  Cpu
+  Cpu,
+  GitBranch
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../components/Icons';
 import Typewriter from '../components/Typewriter';
@@ -22,11 +22,11 @@ import HeroPortrait from '../components/sections/hero/HeroPortrait';
 import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import { experiences, education } from '../data/experience';
-import { skillCategories, quickSkills } from '../data/skills';
+import { skillCategories } from '../data/skills';
 import { blogPosts } from '../data/blog';
 
 export default function HomePage() {
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 4);
+  const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
   const latestBlogs = blogPosts.slice(0, 3);
 
   const getCategoryIcon = (categoryName) => {
@@ -63,8 +63,7 @@ export default function HomePage() {
 
             {/* Main Heading with Typewriter */}
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-[1.18] mb-5 lg:mb-6 animate-fade-in tracking-tight"
-              style={{ animationDelay: '0.1s' }}
+className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-[1.18] mb-5 lg:mb-6 animate-fade-in tracking-tight"              style={{ animationDelay: '0.1s' }}
             >
               Building innovative solutions
               <br className="hidden sm:inline lg:block" />
@@ -148,9 +147,9 @@ export default function HomePage() {
                   <p className="text-muted leading-relaxed text-sm md:text-base mb-4">
                     {profile.bio}
                   </p>
-                  <p className="text-muted/80 text-xs md:text-sm">
+                  {/* <p className="text-muted/80 text-xs md:text-sm">
                     Currently pursuing a Bachelor of Technology in Computer Science & Engineering (Data Science) with an emphasis on production MERN architectures and autonomous agent systems.
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
@@ -168,7 +167,7 @@ export default function HomePage() {
             </div>
 
             {/* Experience Highlight Card */}
-            <div className="bento-card p-6 flex flex-col justify-between group">
+            {/* <div className="bento-card p-6 flex flex-col justify-between group">
               <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors text-accent">
                 <Briefcase className="w-5 h-5" />
               </div>
@@ -177,10 +176,10 @@ export default function HomePage() {
                 <p className="text-lg font-semibold">MERN Stack Intern</p>
                 <p className="text-sm text-accent font-medium mt-0.5">PurpleLane</p>
               </div>
-            </div>
+            </div> */}
 
-            {/* Education Card */}
-            <div className="bento-card p-6 flex flex-col justify-between group">
+            {/*Education Card*/}
+            {/* <div className="bento-card p-6 flex flex-col justify-between group">
               <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors text-accent">
                 <GraduationCap className="w-5 h-5" />
               </div>
@@ -189,10 +188,74 @@ export default function HomePage() {
                 <p className="text-base font-semibold">CS & Data Science</p>
                 <p className="text-xs text-muted mt-1">{education.institution}</p>
               </div>
+            </div>  */}
+            <div className="bento-card p-6 flex flex-col justify-between group">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
+                    <GraduationCap className="w-5 h-5" />
+                  </div>
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20">
+                    CGPA: 8.13{/* or {education.cgpa} */}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-xs text-muted mb-1">Undergraduate Studies</p>
+                  <p className="text-base font-semibold">CS & Data Science</p>
+                  <p className="text-xs text-muted mt-1">{education.institution}</p>
+                </div>
             </div>
+    {/* What I Build Card */}
+<div className="bento-card md:col-span-2 p-6 flex flex-col justify-between group">
+  <div>
+    {/* Card Header */}
+    <div className="flex items-center justify-between mb-4">
+      <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors text-accent">
+        <Cpu className="w-5 h-5" />
+      </div>
+      <span className="text-xs uppercase tracking-wider font-medium text-accent">
+        Core Focus
+      </span>
+    </div>
+
+    <div>
+      {/* <p className="text-xs text-muted mb-1">Architecture & Engineering</p> */}
+      <p className="text-base font-semibold">What I Build</p>
+    </div>
+
+    {/* Sub-Focus Highlights */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+      <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
+        <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
+          <Layers className="w-4 h-4 text-accent" />
+          <span>Full-Stack Platforms</span>
+        </div>
+        <p className="text-xs text-muted leading-relaxed">
+          Production web apps using React, Node.js, and MongoDB with secure auth, rate-limited APIs, and clean state.
+        </p>
+      </div>
+
+      <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-colors">
+        <div className="flex items-center gap-2 mb-1.5 text-foreground font-medium text-sm">
+          <GitBranch className="w-4 h-4 text-accent" />
+          <span>Agentic & RAG Systems</span>
+        </div>
+        <p className="text-xs text-muted leading-relaxed">
+          Orchestrated workflows using LangGraph and LangChain, featuring tool calling, RAG pipelines, and human-in-the-loop loops.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Footer Tagline */}
+  {/* <div className="mt-5 pt-3.5 border-t border-border/40 flex items-center justify-between text-xs text-muted">
+    <span>Focus: Scalability & AI Integration</span>
+    <span className="font-mono text-[11px] text-accent">Production-Ready</span>
+  </div> */}
+</div>
+
 
             {/* Quick Skills Pill Card */}
-            <div className="bento-card p-6 flex flex-col justify-between group">
+            {/* <div className="bento-card p-6 flex flex-col justify-between group">
               <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors text-accent">
                 <Sparkles className="w-5 h-5" />
               </div>
@@ -209,7 +272,7 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -283,10 +346,10 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* Project Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Project List: Vertically stacked wide rectangle cards spanning four columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
             {featuredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} variant="wide" />
             ))}
           </div>
 
