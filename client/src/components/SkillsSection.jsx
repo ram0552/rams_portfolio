@@ -53,6 +53,206 @@ function getBentoColSpan(id) {
   }
 }
 
+/**
+ * Individual Category Card with pointer-driven 3D tilt,
+ * hover elevation, depth transitions, and tailored icon animations
+ * matching ProjectCard, AboutCard, and ExploringCard.
+ */
+function SkillCategoryCard({
+  category,
+  index,
+  isActive,
+  isVisible,
+  prefersReducedMotion,
+  onHoverStart,
+  onHoverEnd
+}) {
+  const cardRef = useRef(null);
+  const [hasEntered, setHasEntered] = useState(() => Boolean(prefersReducedMotion));
+
+  // Clear entrance inline transition once animation completes so hover/reset have 0ms delay
+  useEffect(() => {
+    if (!isVisible || prefersReducedMotion) return;
+    const timer = setTimeout(() => {
+      setHasEntered(true);
+    }, index * 80 + 450);
+    return () => clearTimeout(timer);
+  }, [isVisible, index, prefersReducedMotion]);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    // Respect reduced motion and touch/coarse devices
+    if (
+      prefersReducedMotion ||
+      (typeof window !== 'undefined' && (
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        window.matchMedia('(pointer: coarse)').matches ||
+        window.matchMedia('(hover: none)').matches
+      ))
+    ) {
+      return;
+    }
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Restrained 3D tilt: max ~2.5 degrees rotation matching Project and About cards
+    const rotateX = ((y - centerY) / centerY) * -2.5;
+    const rotateY = ((x - centerX) / centerX) * 2.5;
+
+    cardRef.current.style.transform = `perspective(1000px) translateY(-5px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = '';
+    onHoverEnd?.();
+  };
+
+  const bentoSpan = getBentoColSpan(category.id);
+
+  // Staggered entrance animation: clean transition during entrance,
+  // then cleanly clear inline transition and delay once entered so
+  // 3D tilt, hover elevation, and reset work with 0ms delay at 100% responsiveness.
+  const entranceStyle = hasEntered
+    ? undefined
+    : {
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(12px)',
+        transition: 'opacity 400ms ease-out, transform 400ms ease-out',
+        transitionDelay: `${index * 80}ms`
+      };
+
+  return (
+    <div
+      ref={cardRef}
+      tabIndex={0}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => {
+        setHasEntered(true);
+        onHoverStart?.();
+      }}
+      onMouseLeave={handleMouseLeave}
+      onFocus={() => {
+        setHasEntered(true);
+        onHoverStart?.();
+        if (cardRef.current && !prefersReducedMotion) {
+          cardRef.current.style.transform = 'perspective(1000px) translateY(-5px)';
+        }
+      }}
+      onBlur={() => {
+        if (cardRef.current) {
+          cardRef.current.style.transform = '';
+        }
+        onHoverEnd?.();
+      }}
+      className={`skills-card group/card relative p-6 sm:p-7 flex flex-col justify-between rounded-3xl h-full cursor-default focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${bentoSpan} ${
+        isActive
+          ? 'border-accent/80 shadow-lg shadow-accent/10'
+          : 'border-theme hover:border-accent'
+      }`}
+      style={entranceStyle}
+    >
+      {/* Subtle ambient active highlight wash */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-3xl pointer-events-none transition-opacity duration-500 ${
+          isActive ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+
+      {/* Subtle hover gradient overlay matching ProjectCard & AboutCard */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 rounded-3xl pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col h-full justify-between">
+        {/* Category Card Header */}
+        <div className="mb-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover/card:scale-110 group-hover/card:-translate-y-0.5 ${
+                  isActive ? 'bg-accent/20 text-accent' : 'bg-accent/10 text-accent group-hover/card:bg-accent/20'
+                }`}
+              >
+                {getCategoryIcon(category.name)}
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold group-hover/card:text-accent transition-colors duration-200">
+                {category.name}
+              </h3>
+            </div>
+
+            {/* Active indicator dot and category counter */}
+            <div className="flex items-center gap-2">
+              <span
+                className={`w-2 h-2 rounded-full bg-accent transition-all duration-300 ${
+                  isActive
+                    ? 'opacity-100 scale-100 shadow-sm shadow-accent'
+                    : 'opacity-0 scale-75'
+                }`}
+                aria-hidden="true"
+              />
+              <span
+                className={`text-xs font-mono transition-colors duration-300 ${
+                  isActive ? 'text-accent font-semibold' : 'text-muted/60'
+                }`}
+              >
+                0{index + 1}
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs sm:text-sm text-muted leading-relaxed">
+            {category.description}
+          </p>
+        </div>
+
+        {/* Technology Pills: Every technology is clearly visible without interaction */}
+        <div
+          className={
+            category.id === 'ai-generative-ai'
+              ? 'grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-auto'
+              : 'flex flex-wrap gap-2.5 mt-auto'
+          }
+        >
+          {category.skills.map((skill, skillIndex) => {
+            const floatClass = prefersReducedMotion
+              ? ''
+              : getFloatClass(skill.floatVariant);
+
+            return (
+              <div
+                key={skill.name}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[rgb(var(--color-border))]/30 dark:bg-zinc-800/40 border border-theme/40 hover:border-accent/40 hover:bg-accent/5 hover:scale-[1.02] transition-all duration-200 group/tech cursor-default select-none"
+              >
+                {/* Scale & subtle lift wrapper for responsive logo interaction on card-hover, preserving independent floating animation */}
+                <span
+                  className="inline-flex shrink-0 transition-transform duration-300 ease-out group-hover/card:-translate-y-0.5 group-hover/card:scale-105 group-hover/tech:scale-110 group-hover/tech:-translate-y-1"
+                  style={{
+                    transitionDelay: prefersReducedMotion ? '0ms' : `${(skillIndex % 4) * 35}ms`
+                  }}
+                >
+                  <span className={`inline-flex shrink-0 ${floatClass}`}>
+                    <TechIcon
+                      name={skill.name}
+                      className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
+                    />
+                  </span>
+                </span>
+                <span className="text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover/tech:text-accent transition-colors duration-200">
+                  {skill.name}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function SkillsSection() {
   const sectionRef = useRef(null);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -135,123 +335,21 @@ export default function SkillsSection() {
 
         {/* Bento Grid: 12-column composition on desktop, 2-col on tablet, 1-col on mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-          {skillCategories.map((category, index) => {
-            const isActive = activeCategory === index;
-            const bentoSpan = getBentoColSpan(category.id);
-
-            // Staggered entrance animation delay
-            const entranceStyle = {
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
-              transitionDelay: `${index * 80}ms`
-            };
-
-            return (
-              <div
-                key={category.id}
-                tabIndex={0}
-                onMouseEnter={() => {
-                  setIsPaused(true);
-                  setActiveCategory(index);
-                }}
-                onMouseLeave={() => setIsPaused(false)}
-                onFocus={() => {
-                  setIsPaused(true);
-                  setActiveCategory(index);
-                }}
-                onBlur={() => setIsPaused(false)}
-                className={`bento-card group relative p-6 sm:p-7 flex flex-col justify-between rounded-3xl transition-all duration-500 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${bentoSpan} ${
-                  isActive
-                    ? 'border-accent shadow-lg shadow-accent/10 -translate-y-1'
-                    : 'border-theme hover:border-accent/60'
-                }`}
-                style={entranceStyle}
-              >
-                {/* Subtle ambient active highlight wash */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-3xl pointer-events-none transition-opacity duration-500 ${
-                    isActive ? 'opacity-100' : 'opacity-0'
-                  }`}
-                />
-
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  {/* Category Card Header */}
-                  <div className="mb-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300 ${
-                            isActive ? 'bg-accent/20' : 'bg-accent/10'
-                          }`}
-                        >
-                          {getCategoryIcon(category.name)}
-                        </div>
-                        <h3 className="text-lg sm:text-xl font-bold group-hover:text-accent transition-colors duration-200">
-                          {category.name}
-                        </h3>
-                      </div>
-
-                      {/* Active indicator dot and category counter */}
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`w-2 h-2 rounded-full bg-accent transition-all duration-300 ${
-                            isActive
-                              ? 'opacity-100 scale-100 shadow-sm shadow-accent'
-                              : 'opacity-0 scale-75'
-                          }`}
-                          aria-hidden="true"
-                        />
-                        <span
-                          className={`text-xs font-mono transition-colors duration-300 ${
-                            isActive ? 'text-accent font-semibold' : 'text-muted/60'
-                          }`}
-                        >
-                          0{index + 1}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                      {category.description}
-                    </p>
-                  </div>
-
-                  {/* Technology Pills: Every technology is clearly visible without interaction */}
-                  <div
-                    className={
-                      category.id === 'ai-generative-ai'
-                        ? 'grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-auto'
-                        : 'flex flex-wrap gap-2.5 mt-auto'
-                    }
-                  >
-                    {category.skills.map((skill) => {
-                      const floatClass = prefersReducedMotion
-                        ? ''
-                        : getFloatClass(skill.floatVariant);
-
-                      return (
-                        <div
-                          key={skill.name}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[rgb(var(--color-border))]/30 dark:bg-zinc-800/40 border border-theme/40 hover:border-accent/40 hover:bg-accent/5 transition-all duration-200 group/tech cursor-default select-none"
-                        >
-                          {/* Floating icon wrapper (only icon floats gently, text remains completely stable) */}
-                          <span className={`inline-flex shrink-0 ${floatClass}`}>
-                            <TechIcon
-                              name={skill.name}
-                              className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
-                            />
-                          </span>
-                          <span className="text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover/tech:text-accent transition-colors duration-200">
-                            {skill.name}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {skillCategories.map((category, index) => (
+            <SkillCategoryCard
+              key={category.id}
+              category={category}
+              index={index}
+              isActive={activeCategory === index}
+              isVisible={isVisible}
+              prefersReducedMotion={prefersReducedMotion}
+              onHoverStart={() => {
+                setIsPaused(true);
+                setActiveCategory(index);
+              }}
+              onHoverEnd={() => setIsPaused(false)}
+            />
+          ))}
         </div>
       </div>
     </section>

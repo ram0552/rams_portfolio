@@ -263,7 +263,7 @@ export default function HomePage() {
               to="/projects"
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-theme text-muted hover:text-accent hover:border-accent hover:bg-accent/5 transition-all text-sm font-medium"
             >
-              <span>Explore All {projects.length} Projects with Filters & Search</span>
+              <span>Explore All {projects.length} Projects</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

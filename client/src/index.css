@@ -231,6 +231,38 @@ html:not(.dark) .lattice-cell {
   border-color: var(--color-accent);
 }
 
+/* Skills Category Cards (3D Tilt & Hover Effects matching Project & About Cards) */
+.skills-card {
+  position: relative;
+  background: rgb(var(--color-bg));
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 1.5rem;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  height: 100%;
+}
+
+.skills-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -20px #ef444433;
+}
+
+.dark .skills-card {
+  background: #ffffff0d;
+  border-color: #ffffff1a;
+}
+
+.dark .skills-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 20px 40px -20px #ef444433;
+}
+
 /* Experience Cards */
 .experience-card {
   background: rgb(var(--color-bg));
@@ -518,7 +550,8 @@ html:not(.dark) .lattice-cell {
 
   .project-card,
   .exploring-card,
-  .about-card {
+  .about-card,
+  .skills-card {
     animation: none !important;
     transform: none !important;
     transition: none !important;
