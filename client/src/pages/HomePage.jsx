@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   MapPin,
@@ -20,6 +20,91 @@ import HeroPortrait from '../components/sections/hero/HeroPortrait';
 import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import { experiences, education } from '../data/experience';
+
+/**
+ * ExperienceCard
+ * 
+ * Individual Experience Card with pointer-driven 3D tilt,
+ * hover elevation, depth transitions, and subtle gradient overlay
+ * matching ProjectCard, AboutCard, and ExploringCard.
+ */
+function ExperienceCard({ exp, isEven }) {
+  const cardRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    // Respect reduced motion and touch devices
+    if (
+      typeof window !== 'undefined' && (
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        window.matchMedia('(pointer: coarse)').matches ||
+        window.matchMedia('(hover: none)').matches
+      )
+    ) {
+      return;
+    }
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Restrained 3D tilt: max ~2.5 degrees rotation matching ProjectCard & AboutCard
+    const rotateX = ((y - centerY) / centerY) * -2.5;
+    const rotateY = ((x - centerX) / centerX) * 2.5;
+
+    cardRef.current.style.transform = `perspective(1000px) translateY(-5px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = '';
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      tabIndex={0}
+      className={`experience-card group relative p-6 cursor-default focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+        isEven ? 'md:mr-8' : 'md:ml-8'
+      }`}
+    >
+      {/* Subtle hover gradient overlay matching ProjectCard & AboutCard */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[1rem] pointer-events-none" />
+
+      {/* Content wrapper with relative z-10 positioning */}
+      <div className="relative z-10">
+        <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent mb-3">
+          {exp.period}
+        </span>
+        <h3 className="text-xl font-bold mb-1">{exp.role}</h3>
+        <p className="text-accent font-semibold text-sm mb-1">
+          {exp.organization}
+        </p>
+        <p className="text-xs text-muted mb-3">{exp.location}</p>
+        <p className="text-muted text-sm leading-relaxed mb-4">
+          {exp.description}
+        </p>
+
+        <ul className={`space-y-1.5 text-xs text-muted ${isEven ? 'text-left' : ''}`}>
+          {exp.highlights.map((h, i) => (
+            <li
+              key={i}
+              className={`flex items-start gap-2 ${isEven ? 'md:flex-row-reverse' : ''}`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1.5" />
+              <span className={isEven ? 'flex-1 text-left' : ''}>{h}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
 
 export default function HomePage() {
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
@@ -45,7 +130,7 @@ export default function HomePage() {
             <h1
               className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold leading-[1.18] mb-5 lg:mb-6 animate-fade-in tracking-tight" style={{ animationDelay: '0.1s' }}
             >
-              Building innovative solutions
+              Building intelligent solutions
               <br className="hidden sm:inline lg:block" />
               {' '}as a <Typewriter words={profile.typewriterRoles} />
             </h1>
@@ -59,7 +144,7 @@ export default function HomePage() {
             </p>
 
             {/* Tags */}
-            <div
+            {/* <div
               className="flex flex-wrap justify-center lg:justify-start gap-x-4 gap-y-2 text-muted font-mono text-xs md:text-sm animate-fade-in mb-8 lg:mb-10"
               style={{ animationDelay: '0.3s' }}
             >
@@ -68,7 +153,7 @@ export default function HomePage() {
                   {tag}
                 </span>
               ))}
-            </div>
+            </div> */}
 
             {/* Actions */}
             <div
@@ -155,8 +240,9 @@ export default function HomePage() {
               </div>
               <div>
                 <p className="text-xs text-muted mb-1">Undergraduate Studies</p>
-                <p className="text-base font-semibold">CS & Data Science</p>
+                <p className="text-base font-semibold">B.Tech in Computer Science & Data Science (2023-2027)</p>
                 <p className="text-xs text-muted mt-1">{education.institution}</p>
+                <p className="text-xs text-muted mt-1">Tadepalligudem, Andhra Pradesh, India</p>
               </div>
             </AboutCard>
 
@@ -168,14 +254,17 @@ export default function HomePage() {
                   <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-all duration-300 text-accent">
                     <Cpu className="w-5 h-5 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3" />
                   </div>
+                  <span className="text-base font-semibold">
+                    What I Build
+                  </span>
                   <span className="text-xs uppercase tracking-wider font-medium text-accent">
                     Core Focus
                   </span>
                 </div>
 
-                <div>
+                {/* <div>
                   <p className="text-base font-semibold">What I Build</p>
-                </div>
+                </div> */}
 
                 {/* Sub-Focus Highlights */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
@@ -185,8 +274,7 @@ export default function HomePage() {
                       <span>Full-Stack Platforms</span>
                     </div>
                     <p className="text-xs text-muted leading-relaxed">
-                      Production web apps using React, Node.js, and MongoDB with secure auth, rate-limited APIs, and clean state.
-                    </p>
+                        Build scalable, production-ready web applications with React, Node.js, Express, and MongoDB, with a focus on secure authentication, role-based authorization, and reliable API design.                    </p>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-muted/5 border border-border/50 hover:border-accent/30 transition-all duration-200 group/sub">
@@ -195,8 +283,7 @@ export default function HomePage() {
                       <span>Agentic & RAG Systems</span>
                     </div>
                     <p className="text-xs text-muted leading-relaxed">
-                      Orchestrated workflows using LangGraph and LangChain, featuring tool calling, RAG pipelines, and human-in-the-loop loops.
-                    </p>
+                        Orchestrated intelligent AI workflows using LangChain and LangGraph, integrating tool calling, RAG pipelines, and human-in-the-loop decision-making.                    </p>
                   </div>
                 </div>
               </div>
@@ -302,33 +389,8 @@ export default function HomePage() {
                     {/* Timeline Dot with Accent Ring */}
                     <div className="absolute top-1.5 w-3.5 h-3.5 rounded-full bg-accent border-4 border-[rgb(var(--color-bg))] left-0 md:left-1/2 md:-translate-x-1/2 z-10 shadow-sm shadow-accent/50" />
 
-                    {/* Content Card */}
-                    <div className={`experience-card p-6 ${isEven ? 'md:mr-8' : 'md:ml-8'}`}>
-                      <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent mb-3">
-                        {exp.period}
-                      </span>
-                      <h3 className="text-xl font-bold mb-1">{exp.role}</h3>
-                      <p className="text-accent font-semibold text-sm mb-1">
-                        {exp.organization}
-                      </p>
-                      <p className="text-xs text-muted mb-3">{exp.location}</p>
-                      <p className="text-muted text-sm leading-relaxed mb-4">
-                        {exp.description}
-                      </p>
-
-                      <ul className={`space-y-1.5 text-xs text-muted ${isEven ? 'md:text-right' : ''}`}>
-                        {exp.highlights.map((h, i) => (
-                          <li
-                            key={i}
-                            className={`flex items-start gap-2 ${isEven ? 'md:flex-row-reverse' : ''
-                              }`}
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 mt-1.5" />
-                            <span>{h}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {/* Content Card with 3D Tilt and Hover Elevation */}
+                    <ExperienceCard exp={exp} isEven={isEven} />
                   </div>
                 );
               })}
@@ -397,13 +459,13 @@ export default function HomePage() {
           </div>
 
           {/* Functional Contact Form */}
-          <div className="pt-8 border-t border-theme/40">
+          {/* <div className="pt-8 border-t border-theme/40">
             <h3 className="text-xl font-bold mb-2">Or Send a Direct Inquiry</h3>
             <p className="text-xs text-muted mb-8">
               Fill out the form below to initiate communication
             </p>
             <ContactForm />
-          </div>
+          </div> */}
         </div>
       </section>
     </div>

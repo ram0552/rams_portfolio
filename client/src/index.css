@@ -263,23 +263,39 @@ html:not(.dark) .lattice-cell {
   box-shadow: 0 20px 40px -20px #ef444433;
 }
 
-/* Experience Cards */
+/* Experience Cards (3D Tilt & Hover Effects matching Project & About Cards) */
 .experience-card {
+  position: relative;
   background: rgb(var(--color-bg));
   border: 1px solid rgb(var(--color-border));
   border-radius: 1rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .experience-card:hover {
   border-color: var(--color-accent);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -20px #ef444433;
+}
+
+.experience-card:active {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px -10px #ef444426;
 }
 
 .dark .experience-card {
   background: #ffffff0d;
   border-color: #ffffff1a;
+}
+
+.dark .experience-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 20px 40px -20px #ef444433;
 }
 
 /* Social Links */
@@ -551,7 +567,8 @@ html:not(.dark) .lattice-cell {
   .project-card,
   .exploring-card,
   .about-card,
-  .skills-card {
+  .skills-card,
+  .experience-card {
     animation: none !important;
     transform: none !important;
     transition: none !important;

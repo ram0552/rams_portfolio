@@ -10,14 +10,14 @@ export const profile = {
   shortName: "Rambabu Ghantasala",
   nickname: "Rambabu Ghantasala",
   initials: "RG",
-  title: "Data Science undergraduate, MERN Stack developer, and generative AI developer",
+  title: "Data Science Undergraduate | MERN Stack Developer | Generative AI Developer",
   location: "Tadepalligudem, Andhra Pradesh, India",
   email: "rambabu.ghantasala@sasi.ac.in",
   phone: "+91 6303482344",
-  linkedin: "https://www.linkedin.com/in/ram-babu-gantasala-a525a0293",
+  linkedin: "https://www.linkedin.com/in/rambabu-ghantasala-27bb02413",
   github: "https://github.com/ram0552",
   // Configure path (e.g., "/resume.pdf") or external document URL when available:
-  resumeUrl: "",
+  resumeUrl: "https://drive.google.com/file/d/10UcVXItxBuGjBTV33sTafuAg4MCeoisj/view?usp=sharing",
   bio: "I'm Rambabu Ghantasala, a B.Tech Computer Science and Data Science student focused on full-stack development and AI engineering. I build modern web applications using React, Node.js, Express, and MongoDB, along with AI-powered features such as RAG, semantic search, and LangChain and LangGraph agent workflows.",
   typewriterRoles: [
     "Full Stack Developer",
