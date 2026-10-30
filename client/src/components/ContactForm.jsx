@@ -82,7 +82,7 @@ export default function ContactForm() {
               href={`mailto:${profile.email}?subject=${encodeURIComponent(
                 formData.subject || 'Portfolio Inquiry'
               )}&body=${encodeURIComponent(
-                `Hi Sai Ganesh,\n\n${formData.message}\n\nBest regards,\n${formData.name} (${formData.email})`
+                `Hi Rambabu,\n\n${formData.message}\n\nBest regards,\n${formData.name} (${formData.email})`
               )}`}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-accent text-white font-medium hover:bg-accent-600 transition-colors text-sm"
             >
@@ -191,7 +191,7 @@ export default function ContactForm() {
               rows={4}
               value={formData.message}
               onChange={handleChange}
-              placeholder="Hi Sai Ganesh, I came across your portfolio and wanted to discuss..."
+              placeholder="Hi Rambabu, I came across your portfolio and wanted to discuss..."
               className={`w-full px-4 py-2.5 rounded-xl bg-[rgb(var(--color-bg))] border text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-accent/30 ${
                 errors.message
                   ? 'border-red-500 text-red-500'

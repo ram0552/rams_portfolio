@@ -22,8 +22,8 @@ export default function HeroPortrait({
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const initials = profile.initials || 'SG';
-  const displayName = profileData.name || profile.shortName || 'Sai Ganesh';
+  const initials = profile.initials || 'RG';
+  const displayName = profileData.name || profile.shortName || 'Rambabu Ghantasala';
 
   return (
     <div

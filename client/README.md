@@ -124,12 +124,4 @@ npm run preview
 
 ---
 
-## 👤 Profile & Attribution
 
-- **Name**: Patcha Manikanta Naga Venkata Sai Ganesh
-- **Positioning**: Computer Science & Data Science undergraduate, MERN Stack Developer, and AI application developer
-- **Location**: Tadepalligudem, Andhra Pradesh, India
-- **Email**: [manikantha.patcha@sasi.ac.in](mailto:manikantha.patcha@sasi.ac.in)
-- **LinkedIn**: [sai-ganesh-patcha-390a412a2](https://www.linkedin.com/in/sai-ganesh-patcha-390a412a2)
-- **GitHub**: [manikanthapatcha](https://github.com/manikanthapatcha)
-- **Experience**: MERN Stack Developer Intern @ PurpleLane
