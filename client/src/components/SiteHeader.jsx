@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, FileText } from 'lucide-react';
+import { MoreVertical, FileText } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import MobileMenu from './MobileMenu';
 import { GithubIcon, LinkedinIcon } from './Icons';
@@ -13,7 +13,22 @@ export default function SiteHeader() {
   const hasResume = Boolean(profile.resumeUrl && profile.resumeUrl.trim());
   const isDownloadable = hasResume && (profile.resumeUrl.endsWith('.pdf') || profile.resumeUrl.startsWith('/'));
 
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
+  const toggleMenu = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setMenuOpen((prev) => !prev);
+  };
+
   const handleNavClick = (targetId) => {
+    if (menuOpen) {
+      setMenuOpen(false);
+    }
     if (location.pathname === '/') {
       if (targetId === 'home') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -28,7 +43,7 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 bg-[rgb(var(--color-bg))]/85 backdrop-blur-md border-b border-theme/40 transition-colors duration-300">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[rgb(var(--color-bg))]/85 backdrop-blur-md border-b border-theme/40 transition-colors duration-300">
         <nav className="flex items-center justify-between px-4 sm:px-6 md:px-8 max-w-7xl mx-auto h-16 sm:h-20">
           {/* Left — Personal Name */}
           <Link
@@ -161,24 +176,28 @@ export default function SiteHeader() {
             {/* 4. Light/dark theme toggle */}
             <ThemeToggle />
 
-            {/* Mobile/Tablet Menu Trigger */}
+            {/* Mobile/Tablet Three-Dot Menu Trigger */}
             <button
               id="menu-toggle"
               type="button"
-              onClick={() => setMenuOpen(true)}
-              className="xl:hidden p-2 rounded-lg hover:bg-zinc-200/50 dark:hover:bg-zinc-800/60 transition-colors text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-accent/50"
-              aria-label="Open menu"
+              onClick={toggleMenu}
+              className={`xl:hidden p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 ${
+                menuOpen
+                  ? 'bg-accent/10 text-accent'
+                  : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/60'
+              }`}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
             >
-              <Menu className="w-5 h-5" />
+              <MoreVertical className="w-5 h-5" />
             </button>
           </div>
         </nav>
       </header>
 
       {/* Slide-out mobile menu */}
-      <MobileMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileMenu isOpen={menuOpen} onClose={closeMenu} />
     </>
   );
 }

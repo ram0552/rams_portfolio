@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, FileText } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './Icons';
@@ -12,12 +12,43 @@ export default function MobileMenu({ isOpen, onClose }) {
   const hasResume = Boolean(profile.resumeUrl && profile.resumeUrl.trim());
   const isDownloadable = hasResume && (profile.resumeUrl.endsWith('.pdf') || profile.resumeUrl.startsWith('/'));
 
-  // Close menu when route changes
+  // Close menu only when route (pathname) actually changes, NOT when opening
+  const prevPathRef = useRef(location.pathname);
   useEffect(() => {
-    if (isOpen) {
-      onClose();
+    if (prevPathRef.current !== location.pathname) {
+      prevPathRef.current = location.pathname;
+      if (isOpen) {
+        onClose();
+      }
     }
   }, [location.pathname, isOpen, onClose]);
+
+  // Handle outside click when menu is open without closing immediately upon opening
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleOutsideClick = (e) => {
+      const menuEl = document.getElementById('mobile-menu');
+      const toggleEl = document.getElementById('menu-toggle');
+      if (
+        (menuEl && menuEl.contains(e.target)) ||
+        (toggleEl && toggleEl.contains(e.target))
+      ) {
+        return;
+      }
+      onClose();
+    };
+
+    // Attach in next frame so the opening click/tap does not immediately trigger it
+    const timer = setTimeout(() => {
+      document.addEventListener('click', handleOutsideClick);
+    }, 50);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isOpen, onClose]);
 
   // Handle escape key and body overflow lock
   useEffect(() => {
@@ -38,6 +69,17 @@ export default function MobileMenu({ isOpen, onClose }) {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
+  }, [isOpen, onClose]);
+
+  // Close menu on screen resize to desktop (xl: 1280px)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1280 && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [isOpen, onClose]);
 
   // Ordered navigation links matching desktop layout
@@ -73,7 +115,10 @@ export default function MobileMenu({ isOpen, onClose }) {
       {/* Backdrop overlay */}
       <div
         id="menu-overlay"
-        onClick={onClose}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
         className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
@@ -84,29 +129,30 @@ export default function MobileMenu({ isOpen, onClose }) {
       <nav
         id="mobile-menu"
         aria-label="Mobile navigation"
-        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-[rgb(var(--color-bg))] z-50 transform transition-transform duration-300 ease-out shadow-2xl border-l border-theme overflow-y-auto ${
+        className={`fixed top-16 sm:top-20 right-0 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] h-[calc(100dvh-4rem)] sm:h-[calc(100dvh-5rem)] w-80 max-w-[85vw] bg-[rgb(var(--color-bg))] z-50 transform transition-transform duration-300 ease-out shadow-2xl border-l border-theme overflow-y-auto ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col min-h-full p-6">
+        <div className="flex flex-col min-h-full p-6 pb-8">
           {/* Header with Title and Close button */}
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-theme/40">
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-theme/40">
             <div className="flex items-center gap-2">
-              <span className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-sm font-bold">
+              <span className="w-7 h-7 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent text-xs font-bold">
                 {profile.initials}
               </span>
-              <span className="font-semibold text-sm text-foreground">
-                {profile.name}
+              <span className="font-semibold text-xs uppercase tracking-wider text-muted font-mono">
+                Menu
               </span>
             </div>
             <button
               id="menu-close"
               type="button"
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-zinc-200/50 dark:hover:bg-zinc-800/60 transition-colors text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="p-1.5 rounded-lg hover:bg-zinc-200/50 dark:hover:bg-zinc-800/60 transition-colors text-zinc-700 dark:text-zinc-300 focus:outline-none focus:ring-2 focus:ring-accent/50"
               aria-label="Close menu"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
